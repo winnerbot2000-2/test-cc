@@ -1,0 +1,309 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F5A053440B3ECDC68ACCA360 /* RPSBattleSimulatorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2CD7B21ACE3E54319454D41 /* RPSBattleSimulatorApp.swift */; };
+		949C8717AA1913D010A1E945 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C9C0491DABE8AFA6BE017 /* ContentView.swift */; };
+		FBEC3B9481AFCF1D1650932E /* SimulationTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF99A362C4D38974010B565A /* SimulationTypes.swift */; };
+		954DE03488562F606049E81C /* SeededRNG.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91562383F05FACC2AB05BB5 /* SeededRNG.swift */; };
+		D4A7F5CA129AAA255FDA5121 /* SimulationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E0C715D8E22473DEAB31F9 /* SimulationSettings.swift */; };
+		88668796940A8AF41D21C018 /* SimulationEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188010E376DFC62944DD162C /* SimulationEngine.swift */; };
+		7341CBD122599033A460C31E /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9493BC4B1CB5704D5DBB866B /* ThemeManager.swift */; };
+		EBF55F23960854EDF36B3797 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AFA637E0614BFB0D888C7E /* AppState.swift */; };
+		928AB277D44EF90746D07E7A /* VideoFrameRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5184E84572FB147A6954CC8 /* VideoFrameRenderer.swift */; };
+		AD5DA16C87556A8A24C82F72 /* ArenaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD392C8256D490EC5806EDC6 /* ArenaView.swift */; };
+		B02D3FA1A0E7E5A55C7CB711 /* VideoExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B406B484635EC707363CC5B /* VideoExporter.swift */; };
+		7D95315E50A574A7D34B0DD6 /* AudioGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304B0C63D253360C5E49F4B7 /* AudioGenerator.swift */; };
+		E5C075F27FE6710332CAFB8E /* BatchExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEA911D8CA21333AB337777 /* BatchExporter.swift */; };
+		DDB2EFDE957B0EF335946AD2 /* SettingsPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F71105A80716235137D198A /* SettingsPanel.swift */; };
+		93E3BC38F50CD407B52F87F5 /* BatchExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C0073D393DEC70B58BC18C /* BatchExportView.swift */; };
+		A522B09D938BFDC3815981B8 /* ExportProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30132511D95628AD2CF5A465 /* ExportProgressView.swift */; };
+		BD81B5072721E69144EA907D /* BattlePreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE9152A6EBFC0549592A83E /* BattlePreset.swift */; };
+		04BEA6D46A75CA1B9618AF3F /* SocialPlatform.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA426A948FD2539DCB510D33 /* SocialPlatform.swift */; };
+		80BC85BB64A917F965FE2D2C /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6087C134A01660BC14B405DF /* KeychainStore.swift */; };
+		DE0BBF73F9F4F2F345E89B91 /* SocialAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C15E979409FB982D3794FEC /* SocialAuthManager.swift */; };
+		0D7B3540664871B0BB62DCAD /* SocialUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE03EE68442A06791A7F9D6E /* SocialUploader.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		5141EFFF35ACD6C51F274E4D /* RPSBattleSimulator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RPSBattleSimulator.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		185E4B3D00122287C06829AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C85FEB1C61E823139614A1CB /* RPSBattleSimulator.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RPSBattleSimulator.entitlements; sourceTree = "<group>"; };
+		D2CD7B21ACE3E54319454D41 /* RPSBattleSimulatorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPSBattleSimulatorApp.swift; sourceTree = "<group>"; };
+		317C9C0491DABE8AFA6BE017 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		BF99A362C4D38974010B565A /* SimulationTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulationTypes.swift; sourceTree = "<group>"; };
+		B91562383F05FACC2AB05BB5 /* SeededRNG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeededRNG.swift; sourceTree = "<group>"; };
+		A9E0C715D8E22473DEAB31F9 /* SimulationSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulationSettings.swift; sourceTree = "<group>"; };
+		188010E376DFC62944DD162C /* SimulationEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulationEngine.swift; sourceTree = "<group>"; };
+		9493BC4B1CB5704D5DBB866B /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
+		56AFA637E0614BFB0D888C7E /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		A5184E84572FB147A6954CC8 /* VideoFrameRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFrameRenderer.swift; sourceTree = "<group>"; };
+		FD392C8256D490EC5806EDC6 /* ArenaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArenaView.swift; sourceTree = "<group>"; };
+		3B406B484635EC707363CC5B /* VideoExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoExporter.swift; sourceTree = "<group>"; };
+		304B0C63D253360C5E49F4B7 /* AudioGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioGenerator.swift; sourceTree = "<group>"; };
+		1AEA911D8CA21333AB337777 /* BatchExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchExporter.swift; sourceTree = "<group>"; };
+		0F71105A80716235137D198A /* SettingsPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPanel.swift; sourceTree = "<group>"; };
+		97C0073D393DEC70B58BC18C /* BatchExportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchExportView.swift; sourceTree = "<group>"; };
+		30132511D95628AD2CF5A465 /* ExportProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportProgressView.swift; sourceTree = "<group>"; };
+		1DE9152A6EBFC0549592A83E /* BattlePreset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattlePreset.swift; sourceTree = "<group>"; };
+		CA426A948FD2539DCB510D33 /* SocialPlatform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialPlatform.swift; sourceTree = "<group>"; };
+		6087C134A01660BC14B405DF /* KeychainStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainStore.swift; sourceTree = "<group>"; };
+		4C15E979409FB982D3794FEC /* SocialAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialAuthManager.swift; sourceTree = "<group>"; };
+		DE03EE68442A06791A7F9D6E /* SocialUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialUploader.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A9E872B0C4F3AB11D258C39F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0A85897F1A32FE9B91C081CD = {
+			isa = PBXGroup;
+			children = (
+				F819B4A1F2E7E6FF91F96A1E /* RPSBattleSimulator */,
+				B88D7E26791946AEFDCC8BB7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B88D7E26791946AEFDCC8BB7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5141EFFF35ACD6C51F274E4D /* RPSBattleSimulator.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F819B4A1F2E7E6FF91F96A1E /* RPSBattleSimulator */ = {
+			isa = PBXGroup;
+			children = (
+				D2CD7B21ACE3E54319454D41 /* RPSBattleSimulatorApp.swift */,
+				317C9C0491DABE8AFA6BE017 /* ContentView.swift */,
+				BF99A362C4D38974010B565A /* SimulationTypes.swift */,
+				B91562383F05FACC2AB05BB5 /* SeededRNG.swift */,
+				A9E0C715D8E22473DEAB31F9 /* SimulationSettings.swift */,
+				188010E376DFC62944DD162C /* SimulationEngine.swift */,
+				9493BC4B1CB5704D5DBB866B /* ThemeManager.swift */,
+				56AFA637E0614BFB0D888C7E /* AppState.swift */,
+				A5184E84572FB147A6954CC8 /* VideoFrameRenderer.swift */,
+				FD392C8256D490EC5806EDC6 /* ArenaView.swift */,
+				3B406B484635EC707363CC5B /* VideoExporter.swift */,
+				304B0C63D253360C5E49F4B7 /* AudioGenerator.swift */,
+				1AEA911D8CA21333AB337777 /* BatchExporter.swift */,
+				0F71105A80716235137D198A /* SettingsPanel.swift */,
+				97C0073D393DEC70B58BC18C /* BatchExportView.swift */,
+				30132511D95628AD2CF5A465 /* ExportProgressView.swift */,
+				1DE9152A6EBFC0549592A83E /* BattlePreset.swift */,
+				CA426A948FD2539DCB510D33 /* SocialPlatform.swift */,
+				6087C134A01660BC14B405DF /* KeychainStore.swift */,
+				4C15E979409FB982D3794FEC /* SocialAuthManager.swift */,
+				DE03EE68442A06791A7F9D6E /* SocialUploader.swift */,
+				185E4B3D00122287C06829AA /* Info.plist */,
+				C85FEB1C61E823139614A1CB /* RPSBattleSimulator.entitlements */,
+			);
+			path = RPSBattleSimulator;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		730950AD798A77AD508AA9E2 /* RPSBattleSimulator */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4977ED30DDFEF48DA821F2BF /* Build configuration list for PBXNativeTarget "RPSBattleSimulator" */;
+			buildPhases = (
+				7EE609159AC086BAB15FF998 /* Sources */,
+				A9E872B0C4F3AB11D258C39F /* Frameworks */,
+				A2892AFC2D88060C0AA91373 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RPSBattleSimulator;
+			productName = RPSBattleSimulator;
+			productReference = 5141EFFF35ACD6C51F274E4D /* RPSBattleSimulator.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1781F676DEDF5767F3243DB0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+			};
+			buildConfigurationList = 9B7A4A2B574091F58331C211 /* Build configuration list for PBXProject "RPSBattleSimulator" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0A85897F1A32FE9B91C081CD;
+			productRefGroup = B88D7E26791946AEFDCC8BB7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				730950AD798A77AD508AA9E2 /* RPSBattleSimulator */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A2892AFC2D88060C0AA91373 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7EE609159AC086BAB15FF998 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F5A053440B3ECDC68ACCA360 /* RPSBattleSimulatorApp.swift in Sources */,
+				949C8717AA1913D010A1E945 /* ContentView.swift in Sources */,
+				FBEC3B9481AFCF1D1650932E /* SimulationTypes.swift in Sources */,
+				954DE03488562F606049E81C /* SeededRNG.swift in Sources */,
+				D4A7F5CA129AAA255FDA5121 /* SimulationSettings.swift in Sources */,
+				88668796940A8AF41D21C018 /* SimulationEngine.swift in Sources */,
+				7341CBD122599033A460C31E /* ThemeManager.swift in Sources */,
+				EBF55F23960854EDF36B3797 /* AppState.swift in Sources */,
+				928AB277D44EF90746D07E7A /* VideoFrameRenderer.swift in Sources */,
+				AD5DA16C87556A8A24C82F72 /* ArenaView.swift in Sources */,
+				B02D3FA1A0E7E5A55C7CB711 /* VideoExporter.swift in Sources */,
+				7D95315E50A574A7D34B0DD6 /* AudioGenerator.swift in Sources */,
+				E5C075F27FE6710332CAFB8E /* BatchExporter.swift in Sources */,
+				DDB2EFDE957B0EF335946AD2 /* SettingsPanel.swift in Sources */,
+				93E3BC38F50CD407B52F87F5 /* BatchExportView.swift in Sources */,
+				A522B09D938BFDC3815981B8 /* ExportProgressView.swift in Sources */,
+				BD81B5072721E69144EA907D /* BattlePreset.swift in Sources */,
+				04BEA6D46A75CA1B9618AF3F /* SocialPlatform.swift in Sources */,
+				80BC85BB64A917F965FE2D2C /* KeychainStore.swift in Sources */,
+				DE0BBF73F9F4F2F345E89B91 /* SocialAuthManager.swift in Sources */,
+				0D7B3540664871B0BB62DCAD /* SocialUploader.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		075A3F45448538490E577636 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				MAC_OS_X_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		9E4B6119718769058EA9DAB2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				MAC_OS_X_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		75C43E90EFD001E36BF60147 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = RPSBattleSimulator/RPSBattleSimulator.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = RPSBattleSimulator/Info.plist;
+				MAC_OS_X_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rpsbattle.simulator";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		763EE87794306FA0DE784359 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = RPSBattleSimulator/RPSBattleSimulator.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = RPSBattleSimulator/Info.plist;
+				MAC_OS_X_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rpsbattle.simulator";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9B7A4A2B574091F58331C211 /* Build configuration list for PBXProject "RPSBattleSimulator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				075A3F45448538490E577636 /* Debug */,
+				9E4B6119718769058EA9DAB2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4977ED30DDFEF48DA821F2BF /* Build configuration list for PBXNativeTarget "RPSBattleSimulator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				75C43E90EFD001E36BF60147 /* Debug */,
+				763EE87794306FA0DE784359 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+	};
+	rootObject = 1781F676DEDF5767F3243DB0 /* Project object */;
+}

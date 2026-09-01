@@ -1,0 +1,76 @@
+<?php
+
+return [
+    'title' => 'Billing',
+
+    'past_due_notice' => [
+        'title' => 'Payment past due',
+        'description' => 'Update your payment method to keep your subscription active.',
+        'cta' => 'Update payment',
+    ],
+
+    'annual_banner' => [
+        'title' => 'Get 2 months free',
+        'description' => 'Switch to annual billing and pay less every month — same plan, nothing else changes.',
+        'cta' => 'Upgrade to annual',
+    ],
+
+    'subscribe' => [
+        'billed_monthly' => 'Billed monthly',
+        'billed_yearly' => 'Billed annually',
+        'prices' => [
+            'workspace' => ['monthly' => '$12', 'yearly_per_month' => '$10', 'yearly' => '$120'],
+        ],
+    ],
+
+    'plan' => [
+        'title' => 'Plan',
+        'description' => 'Manage your subscription plan.',
+        'label' => 'Plan',
+        'workspaces' => '{1}:count workspace|[2,*]:count workspaces',
+        'per_workspace' => 'per workspace',
+        'price' => 'Price',
+        'month' => 'month',
+        'trial' => 'Trial',
+        'active' => 'Active',
+        'past_due' => 'Past due',
+        'cancelling' => 'Cancelling',
+        'trial_ends' => 'Trial ends',
+    ],
+
+    'subscription' => [
+        'title' => 'Subscription',
+        'description' => 'Manage your payment method, billing details, and subscription.',
+        'payment_method' => 'Payment method',
+        'no_payment_method' => 'No payment method on file yet.',
+        'expires_on' => 'Expires :month/:year',
+        'manage_label' => 'Subscription',
+        'manage_stripe' => 'Manage on Stripe',
+    ],
+
+    'invoices' => [
+        'title' => 'Invoices',
+        'description' => 'Download your past invoices.',
+        'empty' => 'No invoices found',
+        'paid' => 'Paid',
+    ],
+
+    'flash' => [
+        'plan_changed' => 'You are now on the :plan plan.',
+        'switched_to_yearly' => 'You\'re now on annual billing.',
+        'cannot_manage' => 'Only the account owner can manage billing.',
+        'credits_exhausted' => 'Out of AI credits — your monthly :limit allowance has been used. Upgrade your plan or wait until next month.',
+        'subscription_required' => 'An active subscription is required to use AI features.',
+    ],
+
+    'processing' => [
+        'page_title' => 'Processing...',
+        'title' => 'Processing your subscription',
+        'description' => 'Please wait while we set up your account. This will only take a moment.',
+        'success_title' => 'You\'re all set!',
+        'success_description' => 'Your subscription is active. Redirecting you to your workspaces...',
+        'cancelled_title' => 'Checkout cancelled',
+        'cancelled_description' => 'Your checkout was cancelled. No charges were made.',
+        'retry' => 'Try again',
+    ],
+];

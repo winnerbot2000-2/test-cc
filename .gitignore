@@ -1,0 +1,13 @@
+# macOS
+.DS_Store
+
+# RPS build artifacts
+RPS/.build/
+RPS/output/
+RPS/RPSBattleSimulator.app/
+RPS/.swiftpm/
+
+# Environment
+.env
+.env.backup
+.env.production

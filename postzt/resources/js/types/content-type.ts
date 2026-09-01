@@ -1,0 +1,24 @@
+export const ContentType = {
+    InstagramFeed: 'instagram_feed',
+    InstagramStory: 'instagram_story',
+    InstagramReel: 'instagram_reel',
+    LinkedInPost: 'linkedin_post',
+    LinkedInPagePost: 'linkedin_page_post',
+    FacebookPost: 'facebook_post',
+    FacebookReel: 'facebook_reel',
+    FacebookStory: 'facebook_story',
+    TikTokVideo: 'tiktok_video',
+    TikTokPhoto: 'tiktok_photo',
+    YouTubeShort: 'youtube_short',
+    XPost: 'x_post',
+    ThreadsPost: 'threads_post',
+    PinterestPin: 'pinterest_pin',
+    PinterestVideoPin: 'pinterest_video_pin',
+    PinterestCarousel: 'pinterest_carousel',
+    BlueskyPost: 'bluesky_post',
+    MastodonPost: 'mastodon_post',
+    TelegramPost: 'telegram_post',
+    DiscordMessage: 'discord_message',
+} as const;
+
+export type ContentTypeValue = (typeof ContentType)[keyof typeof ContentType];
