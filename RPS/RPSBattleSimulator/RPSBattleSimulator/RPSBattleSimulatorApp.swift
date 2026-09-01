@@ -1,7 +1,6 @@
 import SwiftUI
 import AppKit
 
-@main
 struct RPSBattleSimulatorApp: App {
     
     @StateObject private var appState = AppState()
@@ -10,7 +9,6 @@ struct RPSBattleSimulatorApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(appState)
-                .environmentObject(appState.socialAuth)
                 .frame(minWidth: 720, minHeight: 520)
         }
         .windowStyle(.titleBar)

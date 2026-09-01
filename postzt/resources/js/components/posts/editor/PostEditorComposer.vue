@@ -8,6 +8,7 @@ import {
     IconLibraryPhoto,
     IconMoodSmile,
     IconSparkles,
+    IconSwords,
     IconTrash,
     IconVideo,
     IconWriting,
@@ -62,6 +63,7 @@ const media = defineModel<MediaItem[]>('media', { required: true });
 const emit = defineEmits<{
     (e: 'open-ai-generate'): void;
     (e: 'open-ai-review'): void;
+    (e: 'open-rps-battle-video'): void;
 }>();
 
 const emojiOpen = ref(false);
@@ -420,6 +422,21 @@ const onAltTextSave = (alt: string): void => {
                             </button>
                         </TooltipTrigger>
                         <TooltipContent>{{ $t('posts.ai.generate.button_tooltip') }}</TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger as-child>
+                            <button
+                                type="button"
+                                class="inline-flex size-9 cursor-pointer items-center justify-center rounded-lg border-2 border-foreground bg-card text-foreground shadow-2xs transition-all hover:-translate-y-0.5 hover:bg-violet-100 hover:shadow-sm"
+                                @click="emit('open-rps-battle-video')"
+                            >
+                                <IconSwords class="size-4" />
+                            </button>
+                        </TooltipTrigger>
+                        <TooltipContent>{{ $t('posts.battle_video.button_tooltip') }}</TooltipContent>
                     </Tooltip>
                 </TooltipProvider>
 

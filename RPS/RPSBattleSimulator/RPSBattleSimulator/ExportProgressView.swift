@@ -2,7 +2,6 @@ import SwiftUI
 
 struct ExportProgressView: View {
     @EnvironmentObject var appState: AppState
-    @EnvironmentObject var socialAuth: SocialAuthManager
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -98,36 +97,6 @@ struct ExportProgressView: View {
                         Text("1080×1920 · H.264 · MP4 (Ready for TikTok/Shorts)")
                             .font(.caption)
                             .opacity(0.6)
-                        
-                        // Upload as draft to connected platforms
-                        if socialAuth.connections.values.contains(where: { $0.connected }) {
-                            Divider()
-                            VStack(alignment: .leading, spacing: 6) {
-                                Text("UPLOAD AS DRAFT")
-                                    .font(.caption2).opacity(0.6)
-                                ForEach(SocialPlatform.allCases, id: \.self) { platform in
-                                    if socialAuth.connections[platform]?.connected == true {
-                                        HStack(spacing: 8) {
-                                            Image(systemName: platform.icon)
-                                            Text(platform.displayName).font(.callout)
-                                            Spacer()
-                                            if appState.uploadingPlatform == platform {
-                                                ProgressView().controlSize(.small)
-                                            } else {
-                                                Button("Upload") { appState.uploadLastExport(to: platform) }
-                                                    .buttonStyle(.bordered)
-                                            }
-                                        }
-                                        if let result = appState.uploadResults[platform] {
-                                            Text(result.message)
-                                                .font(.caption2)
-                                                .foregroundColor(result.success ? .green : .red)
-                                                .lineLimit(2)
-                                        }
-                                    }
-                                }
-                            }
-                        }
                         
                         HStack(spacing: 12) {
                             if ep.outputURL != nil {

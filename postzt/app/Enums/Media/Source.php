@@ -16,4 +16,5 @@ enum Source: string
     case Ai = 'ai';
     case Unsplash = 'unsplash';
     case Giphy = 'giphy';
+    case Rps = 'rps';
 }

@@ -33,6 +33,7 @@ class Workspace extends Model
         'brand_font',
         'image_style',
         'content_language',
+        'rps_battle_settings',
     ];
 
     protected function casts(): array
@@ -40,6 +41,7 @@ class Workspace extends Model
         return [
             'image_style' => ImageStyle::class,
             'brand_voice_traits' => 'array',
+            'rps_battle_settings' => 'array',
         ];
     }
 

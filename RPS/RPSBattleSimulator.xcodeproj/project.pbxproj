@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D576AB84DE07D9CECCB4D250 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD317D3862262450F637746 /* main.swift */; };
+		716729A9DF2C676C4ECB8BF0 /* HeadlessRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B3179DCF6C15C856C969B9 /* HeadlessRunner.swift */; };
 		F5A053440B3ECDC68ACCA360 /* RPSBattleSimulatorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2CD7B21ACE3E54319454D41 /* RPSBattleSimulatorApp.swift */; };
 		949C8717AA1913D010A1E945 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C9C0491DABE8AFA6BE017 /* ContentView.swift */; };
 		FBEC3B9481AFCF1D1650932E /* SimulationTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF99A362C4D38974010B565A /* SimulationTypes.swift */; };
@@ -34,6 +36,8 @@
 		5141EFFF35ACD6C51F274E4D /* RPSBattleSimulator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RPSBattleSimulator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		185E4B3D00122287C06829AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C85FEB1C61E823139614A1CB /* RPSBattleSimulator.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RPSBattleSimulator.entitlements; sourceTree = "<group>"; };
+		FFD317D3862262450F637746 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		46B3179DCF6C15C856C969B9 /* HeadlessRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadlessRunner.swift; sourceTree = "<group>"; };
 		D2CD7B21ACE3E54319454D41 /* RPSBattleSimulatorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPSBattleSimulatorApp.swift; sourceTree = "<group>"; };
 		317C9C0491DABE8AFA6BE017 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		BF99A362C4D38974010B565A /* SimulationTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulationTypes.swift; sourceTree = "<group>"; };
@@ -87,6 +91,8 @@
 		F819B4A1F2E7E6FF91F96A1E /* RPSBattleSimulator */ = {
 			isa = PBXGroup;
 			children = (
+				FFD317D3862262450F637746 /* main.swift */,
+				46B3179DCF6C15C856C969B9 /* HeadlessRunner.swift */,
 				D2CD7B21ACE3E54319454D41 /* RPSBattleSimulatorApp.swift */,
 				317C9C0491DABE8AFA6BE017 /* ContentView.swift */,
 				BF99A362C4D38974010B565A /* SimulationTypes.swift */,
@@ -177,6 +183,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D576AB84DE07D9CECCB4D250 /* main.swift in Sources */,
+				716729A9DF2C676C4ECB8BF0 /* HeadlessRunner.swift in Sources */,
 				F5A053440B3ECDC68ACCA360 /* RPSBattleSimulatorApp.swift in Sources */,
 				949C8717AA1913D010A1E945 /* ContentView.swift in Sources */,
 				FBEC3B9481AFCF1D1650932E /* SimulationTypes.swift in Sources */,

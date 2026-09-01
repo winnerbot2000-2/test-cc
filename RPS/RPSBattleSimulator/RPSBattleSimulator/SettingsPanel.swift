@@ -2,7 +2,6 @@ import SwiftUI
 
 struct SettingsPanel: View {
     @EnvironmentObject var appState: AppState
-    @EnvironmentObject var socialAuth: SocialAuthManager
     @State private var showAdvanced = false
     
     var body: some View {
@@ -362,63 +361,6 @@ struct SettingsPanel: View {
                 
                 Divider()
                 
-                // MARK: Social Platforms
-                sectionHeader("Social Platforms")
-                
-                ForEach(SocialPlatform.allCases, id: \.self) { platform in
-                    let connected = socialAuth.connections[platform]?.connected ?? false
-                    HStack(spacing: 8) {
-                        Image(systemName: platform.icon)
-                            .frame(width: 20)
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(platform.displayName).font(.callout)
-                            if connected {
-                                Text(socialAuth.connections[platform]?.accountName ?? "Connected")
-                                    .font(.caption).opacity(0.7)
-                            } else {
-                                Text("Not connected").font(.caption).opacity(0.6)
-                            }
-                        }
-                        Spacer()
-                        if socialAuth.isConnecting {
-                            ProgressView().controlSize(.small)
-                        } else if connected {
-                            Button("Disconnect") { appState.disconnectPlatform(platform) }
-                                .buttonStyle(.bordered)
-                        } else {
-                            Button("Connect") { appState.connectPlatform(platform) }
-                                .buttonStyle(.borderedProminent)
-                        }
-                    }
-                    .padding(.vertical, 2)
-                }
-                
-                if let err = socialAuth.lastError {
-                    Text(err).font(.caption).foregroundColor(.red)
-                }
-                
-                Text("Uploads go out as drafts: YouTube (private), TikTok (self-only), Instagram (Reel).")
-                    .font(.caption).opacity(0.6)
-                
-                DisclosureGroup("Platform API Credentials") {
-                    VStack(alignment: .leading, spacing: 8) {
-                        credentialField("YouTube Client ID", text: $socialAuth.credentials.youtubeClientID)
-                        credentialField("YouTube Client Secret", text: $socialAuth.credentials.youtubeClientSecret, secure: true)
-                        credentialField("TikTok Client Key", text: $socialAuth.credentials.tiktokClientKey)
-                        credentialField("TikTok Client Secret", text: $socialAuth.credentials.tiktokClientSecret, secure: true)
-                        credentialField("Instagram App ID", text: $socialAuth.credentials.instagramAppID)
-                        credentialField("Instagram App Secret", text: $socialAuth.credentials.instagramAppSecret, secure: true)
-                        credentialField("Instagram Public Video URL", text: $socialAuth.credentials.instagramVideoURL)
-                        Text("Use your own developer app credentials. Instagram Reels require a publicly hosted video URL.")
-                            .font(.caption).opacity(0.6)
-                        Button("Save Credentials") { socialAuth.saveCredentials() }
-                            .buttonStyle(.bordered)
-                    }
-                    .padding(.top, 6)
-                }
-                
-                Divider()
-                
                 // MARK: Advanced
                 DisclosureGroup("Advanced Physics", isExpanded: $showAdvanced) {
                     VStack(alignment: .leading, spacing: 12) {
@@ -460,22 +402,6 @@ struct SettingsPanel: View {
             .fontWeight(.semibold)
             .opacity(0.6)
             .kerning(0.8)
-    }
-    
-    @ViewBuilder
-    private func credentialField(_ title: String, text: Binding<String>, secure: Bool = false) -> some View {
-        HStack(spacing: 8) {
-            Text(title)
-                .font(.caption)
-                .frame(width: 120, alignment: .leading)
-            if secure {
-                SecureField(title, text: text)
-                    .textFieldStyle(.roundedBorder)
-            } else {
-                TextField(title, text: text)
-                    .textFieldStyle(.roundedBorder)
-            }
-        }
     }
     
     @ViewBuilder

@@ -14,6 +14,8 @@ def uuid_for(name: str) -> str:
 
 # All Swift source files (flat in RPSBattleSimulator/ folder)
 SWIFT_FILES = [
+    "main.swift",
+    "HeadlessRunner.swift",
     "RPSBattleSimulatorApp.swift",
     "ContentView.swift",
     "SimulationTypes.swift",

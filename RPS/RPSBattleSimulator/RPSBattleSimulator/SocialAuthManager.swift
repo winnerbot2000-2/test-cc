@@ -2,6 +2,11 @@ import Foundation
 import AuthenticationServices
 import Combine
 
+// NOTE: Direct social publishing is retired. All publishing now happens through
+// TryPost (the single publisher), so this OAuth path is dormant and no longer
+// surfaced in the UI. Kept in place only so the code remains available if it is
+// ever revived; the headless CLI export path does not call into SocialUploader.
+
 /// Manages OAuth connections to YouTube, TikTok, and Instagram.
 /// Sign-in happens in a native ASWebAuthenticationSession popup (stays in-app,
 /// no browser tab), and tokens are persisted in the Keychain.

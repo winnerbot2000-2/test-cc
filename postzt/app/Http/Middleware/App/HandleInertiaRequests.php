@@ -12,6 +12,8 @@ use App\Http\Resources\App\HandleInertiaRequests\AuthPlanResource;
 use App\Http\Resources\App\HandleInertiaRequests\AuthUserResource;
 use App\Http\Resources\App\HandleInertiaRequests\AuthWorkspaceResource;
 use App\Models\User;
+use App\Models\Workspace;
+use App\Services\Video\RpsBattleVideoGenerator;
 use Illuminate\Http\Request;
 use Inertia\DeferProp;
 use Inertia\Inertia;
@@ -68,6 +70,7 @@ class HandleInertiaRequests extends Middleware
             'allowMultipleSocialAccounts' => (bool) config('trypost.allow_multiple_social_accounts'),
             'googleAuthEnabled' => SocialAuthProvider::Google->isEnabled(),
             'githubAuthEnabled' => SocialAuthProvider::GitHub->isEnabled(),
+            'rpsBattle' => $this->rpsBattle($currentWorkspace),
         ];
     }
 
@@ -79,6 +82,23 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::shareOnce($request),
             'contentTypeMediaRules' => fn (): array => ContentType::mediaRulesForFrontend(),
+        ];
+    }
+
+    /**
+     * Battle video generation defaults (workspace overrides over the shipped
+     * defaults) plus the allowed enum values, shared to the composer dialog.
+     *
+     * @return array<string, mixed>
+     */
+    private function rpsBattle(?Workspace $workspace): array
+    {
+        $generator = app(RpsBattleVideoGenerator::class);
+
+        return [
+            'settings' => $generator->normalize($workspace?->rps_battle_settings ?? []),
+            'themes' => config('rps.themes'),
+            'winnerDisplayStyles' => config('rps.winner_display_styles'),
         ];
     }
 

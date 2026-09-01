@@ -7,6 +7,7 @@ import { computed, onUnmounted, ref, watch } from 'vue';
 import ConfirmDeleteModal from '@/components/ConfirmDeleteModal.vue';
 import AiGenerateDialog from '@/components/posts/ai/AiGenerateDialog.vue';
 import AiReviewDialog from '@/components/posts/ai/AiReviewDialog.vue';
+import RpsBattleVideoDialog from '@/components/posts/ai/RpsBattleVideoDialog.vue';
 import PostEditorActionBar from '@/components/posts/editor/PostEditorActionBar.vue';
 import PostEditorComposer from '@/components/posts/editor/PostEditorComposer.vue';
 import PostEditorHeader from '@/components/posts/editor/PostEditorHeader.vue';
@@ -170,6 +171,7 @@ const isSaving = ref(false);
 const showSaved = ref(false);
 const isAiGenerateOpen = ref(false);
 const isAiReviewOpen = ref(false);
+const isRpsBattleVideoOpen = ref(false);
 
 const onAiGenerateApply = (newContent: string) => {
     content.value = newContent;
@@ -418,6 +420,7 @@ usePostEcho(post.value.id, '.post.comment.created', (e: any) => {
                             :read-only="!canCreatePost"
                             @open-ai-generate="isAiGenerateOpen = true"
                             @open-ai-review="isAiReviewOpen = true"
+                            @open-rps-battle-video="isRpsBattleVideoOpen = true"
                         />
                     </div>
 
@@ -492,5 +495,10 @@ usePostEcho(post.value.id, '.post.comment.created', (e: any) => {
         :post-id="post.id"
         :content="content"
         @apply="onAiReviewApply"
+    />
+
+    <RpsBattleVideoDialog
+        v-model:open="isRpsBattleVideoOpen"
+        :post-id="post.id"
     />
 </template>
