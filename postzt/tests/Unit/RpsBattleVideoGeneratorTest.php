@@ -70,7 +70,7 @@ test('simulationJson emits the camelCase SimulationSettings contract', function 
     expect($json['maxDuration'])->toBe(['type' => 'custom', 'seconds' => 20.0]);
 });
 
-test('seedFor is deterministic and distinct per platform', function () {
+test('seedFor is deterministic and distinct per target key', function () {
     $generator = app(RpsBattleVideoGenerator::class);
 
     $seedA = $generator->seedFor('post-1', 'tiktok');
@@ -81,4 +81,13 @@ test('seedFor is deterministic and distinct per platform', function () {
         ->and($seedA)->not->toBe($seedB)
         ->and($seedA)->toBeGreaterThanOrEqual(0)
         ->and($seedA)->toBeLessThanOrEqual(4294967295);
+});
+
+test('generate fails with a specific error when the configured binary is missing', function () {
+    config()->set('rps.binary_path', '/definitely/not/a/real/RPSBattleSimulator');
+
+    $generator = app(RpsBattleVideoGenerator::class);
+
+    expect(fn () => $generator->generate(['rock_count' => 5], 123, '/tmp/should-not-exist.mp4'))
+        ->toThrow(RuntimeException::class, 'RPS battle simulator binary not found');
 });

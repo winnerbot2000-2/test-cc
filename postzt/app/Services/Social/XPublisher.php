@@ -52,7 +52,7 @@ class XPublisher
         }
 
         $mediaIds = [];
-        $media = $postPlatform->post->mediaItems;
+        $media = $postPlatform->effectiveMediaItems();
 
         if ($media->isNotEmpty()) {
             foreach ($media as $mediaItem) {

@@ -31,3 +31,10 @@ yarn-error.log
 /.zed
 /docs/
 /.superpowers/
+
+# RPS battle simulator build output (produced by the native prebuild step)
+/extras/
+/native/rps-battle-simulator/.build/
+/native/rps-battle-simulator/.swiftpm/
+/native/rps-battle-simulator/output/
+/native/rps-battle-simulator/RPSBattleSimulator.app/

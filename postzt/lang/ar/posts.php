@@ -223,6 +223,34 @@ return [
         'published' => 'منشورات تم نشرها بالفعل',
     ],
 
+    'battle_video' => [
+        'button_tooltip' => 'Generate battle video',
+        'title' => 'Generate battle video',
+        'description' => 'Renders a Rock-Paper-Scissors battle video and attaches it to your post. A distinct video is generated for each targeted account.',
+        'generate' => 'Generate',
+        'save_defaults' => 'Save as default',
+        'cancel' => 'Cancel',
+        'queued' => 'Battle video generation queued. You will be notified when it is ready.',
+        'settings_saved' => 'Battle video defaults saved.',
+        'fields' => [
+            'rock_count' => 'Rocks',
+            'paper_count' => 'Papers',
+            'scissors_count' => 'Scissors',
+            'theme' => 'Theme',
+            'speed' => 'Speed',
+            'max_duration_seconds' => 'Duration (seconds)',
+            'winner_display_style' => 'Winner display',
+            'custom_winner_text' => 'Winner text',
+            'branding_enabled' => 'Branding overlay',
+            'branding_text' => 'Branding text',
+            'sound_enabled' => 'Sound effects',
+        ],
+        'errors' => [
+            'no_platforms' => 'No targeted platforms to generate a video for.',
+            'video_not_supported' => 'Video is not supported by the platforms enabled on this post.',
+            'start_failed' => 'Could not start battle video generation.',
+        ],
+    ],
     'ai' => [
         'generate' => [
             'button_tooltip' => 'الإنشاء بالذكاء الاصطناعي',

@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\DataTransferObjects\MediaItem;
 use App\Enums\PostPlatform\ContentType;
 use App\Enums\PostPlatform\Status;
 use App\Enums\SocialAccount\Platform as SocialPlatform;
 use Database\Factories\PostPlatformFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
 class PostPlatform extends Model
@@ -36,6 +39,7 @@ class PostPlatform extends Model
         'error_context',
         'published_at',
         'meta',
+        'media',
         'connection_warning_sent_at',
     ];
 
@@ -48,9 +52,41 @@ class PostPlatform extends Model
             'status' => Status::class,
             'published_at' => 'datetime',
             'meta' => 'array',
+            'media' => 'array',
             'error_context' => 'array',
             'connection_warning_sent_at' => 'datetime',
         ];
+    }
+
+    /**
+     * Get this platform's media override as a collection of MediaItem DTOs.
+     * Mirrors Post::mediaItems() so publishers consume one shared shape.
+     *
+     * @return Collection<int, MediaItem>
+     */
+    protected function mediaItems(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => collect($this->media ?? [])->map(fn (array $item) => MediaItem::fromArray($item)),
+        );
+    }
+
+    /**
+     * The media a publisher should send for this platform: the per-platform
+     * override when one is set, otherwise the post's shared media. Battle
+     * videos are stored as an override so a post targeting several platforms
+     * publishes one distinct video per platform instead of every platform's
+     * video to every platform.
+     *
+     * @return Collection<int, MediaItem>
+     */
+    public function effectiveMediaItems(): Collection
+    {
+        if ($this->media !== null && $this->media !== []) {
+            return $this->mediaItems;
+        }
+
+        return $this->post->mediaItems;
     }
 
     public function post(): BelongsTo

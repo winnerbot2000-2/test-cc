@@ -41,6 +41,62 @@ Key changes to the codebase:
   `post-autoload-dump` hook so they survive `composer install --no-dev` during packaging):
   Reverb's `StartServer` guards the missing `pcntl` signals, and NativePHP's `FreshCommand`
   signature is fixed for Laravel 13.
+- **`native/rps-battle-simulator/`** — the Swift source for the RPS battle simulator
+  (formerly a top-level `RPS/` project). It is compiled from source by a native prebuild
+  step and deployed into `extras/` (see below), so there is no separately-built binary to
+  copy or distribute.
+- **`extras/`** — build output only (gitignored). The prebuild step produces
+  `extras/RPSBattleSimulator.app`; NativePHP's `electron-builder.mjs` `extraFiles` copies
+  it into the app bundle, and the `NATIVEPHP_EXTRAS_PATH` env var (set by NativePHP's
+  Electron driver) points at it.
+
+---
+
+## RPS battle video simulator binary
+
+Battle video generation shells out to a headless `RPSBattleSimulator` CLI
+(`config/rps.php`, `App\Services\Video\RpsBattleVideoGenerator`). The binary is
+resolved in this order:
+
+1. `RPS_BINARY_PATH` env — an explicit absolute path wins.
+2. `NATIVEPHP_EXTRAS_PATH` — the packaged app bundles `RPSBattleSimulator.app` under
+   `extras/`, and `config/rps.php` resolves its inner executable at
+   `<extras>/RPSBattleSimulator.app/Contents/MacOS/RPSBattleSimulator`.
+3. Fall back to the bare `RPSBattleSimulator` command name resolved via `$PATH`
+   (dev terminal only — Finder launches have no shell PATH).
+
+This matters because the double-clicked, packaged app has no shell/PATH context: the
+bare command name works in `composer native:dev` (PATH is inherited from your terminal)
+but not when the `.app` is launched from Finder. There is nothing to configure for the
+standard build — `native:build` compiles the simulator from `native/rps-battle-simulator/`
+and deploys it into `extras/` automatically. To point at a different binary (e.g. a
+locally rebuilt simulator), set `RPS_BINARY_PATH` in the native build's `.env` (the env
+var is read by both the app and the queue worker):
+
+```dotenv
+RPS_BINARY_PATH=/absolute/path/to/RPSBattleSimulator
+```
+
+The simulator is built arm64-only today (via `native/rps-battle-simulator/build-app.sh`).
+The cross-compiled `x64` TryPost build would need a matching `x64` `RPSBattleSimulator`
+binary before battle video generation works there; the arm64 build is the tested target.
+
+---
+
+## Multiple accounts per network
+
+The native build runs `SELF_HOSTED=true`, which makes `ALLOW_MULTIPLE_SOCIAL_ACCOUNTS`
+default to `true` (`config/trypost.php`). A workspace can therefore connect more than one
+account of the same network (e.g. two TikTok or two YouTube accounts). Each account is its
+own `SocialAccount` row and its own `PostPlatform` row per post, so:
+
+- the accounts grid shows each account as a distinct card (`NetworkConnectGrid`),
+- the composer lists each account as its own channel with its own settings slot
+  (`ScheduleTab`/`ChannelConfigurator`, keyed by `PostPlatform` id, labeled with the
+  account's display name),
+- battle video generation produces one distinct video per account (`seedFor` is keyed by
+  `PostPlatform` id, not platform value), and
+- publishing runs per `PostPlatform` through that account's own credentials.
 
 ---
 
@@ -92,7 +148,9 @@ request — launching the app goes straight to the calendar dashboard.
 
 ## Rebuild from source
 
-Prerequisites: PHP 8.3+, Composer, Node 22+ (the build also needs `unzip`).
+Prerequisites: PHP 8.3+, Composer, Node 22+ (the build also needs `unzip`), and
+**Xcode / a Swift toolchain** (the RPS battle simulator is compiled from source during
+the build via `swift build -c release`).
 
 ```bash
 git clone https://github.com/trypostit/trypost.git && cd trypost
@@ -104,7 +162,9 @@ php artisan key:generate
 composer require nativephp/desktop
 script -q /dev/null php artisan native:install --publish   # use `script` for a TTY
 
-# Build the macOS app (ad-hoc signed, local use)
+# Build the macOS app (ad-hoc signed, local use). One command: it compiles the
+# RPS battle simulator from source, deploys it into extras/, bundles the app,
+# and emits the .dmg/.app — no separate Xcode build step or manual copy.
 CSC_IDENTITY_AUTO_DISCOVERY=false php artisan native:build mac
 # artifacts land in nativephp/electron/dist/
 ```

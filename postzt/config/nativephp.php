@@ -190,8 +190,14 @@ return [
 
     /**
      * Define your own scripts to run before and after the build process.
+     *
+     * The RPS battle simulator is compiled from source and deployed into
+     * `extras/` here, so a single `native:build` produces one `.app` with the
+     * simulator already embedded (config/rps.php resolves it via
+     * NATIVEPHP_EXTRAS_PATH). Requires Xcode / a Swift toolchain.
      */
     'prebuild' => [
+        'bash native/rps-battle-simulator/build-app.sh extras',
         'php artisan wayfinder:generate --with-form',
         'npm run build',
     ],

@@ -53,6 +53,7 @@ interface PostPlatform {
     published_at: string | null;
     social_account: SocialAccount | null;
     meta?: Record<string, any>;
+    media?: MediaItem[];
 }
 
 interface Post {

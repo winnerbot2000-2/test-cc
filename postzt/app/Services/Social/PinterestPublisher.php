@@ -123,7 +123,7 @@ class PinterestPublisher
     private function publishImagePin(PostPlatform $postPlatform, ?string $content): array
     {
         $account = $postPlatform->socialAccount;
-        $media = $postPlatform->post->mediaItems->first();
+        $media = $postPlatform->effectiveMediaItems()->first();
 
         if (! $media) {
             throw new PinterestPublishException(
@@ -169,7 +169,7 @@ class PinterestPublisher
             ],
         ], $postPlatform, $content);
 
-        $alt = $postPlatform->post->mediaItems->first(fn ($m) => $m->isImage())?->altTextFor(Platform::Pinterest);
+        $alt = $postPlatform->effectiveMediaItems()->first(fn ($m) => $m->isImage())?->altTextFor(Platform::Pinterest);
 
         if ($alt !== null) {
             $payload['alt_text'] = $alt;
@@ -181,7 +181,7 @@ class PinterestPublisher
     private function publishVideoPin(PostPlatform $postPlatform, ?string $content): array
     {
         $account = $postPlatform->socialAccount;
-        $media = $postPlatform->post->mediaItems->first();
+        $media = $postPlatform->effectiveMediaItems()->first();
 
         if (! $media) {
             throw new PinterestPublishException(
@@ -300,7 +300,7 @@ class PinterestPublisher
     private function publishCarousel(PostPlatform $postPlatform, ?string $content): array
     {
         $account = $postPlatform->socialAccount;
-        $medias = $postPlatform->post->mediaItems;
+        $medias = $postPlatform->effectiveMediaItems();
 
         if ($medias->count() < 2 || $medias->count() > 5) {
             throw new PinterestPublishException(

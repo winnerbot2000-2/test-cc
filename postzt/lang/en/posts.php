@@ -226,7 +226,7 @@ return [
     'battle_video' => [
         'button_tooltip' => 'Generate battle video',
         'title' => 'Generate battle video',
-        'description' => 'Renders a Rock-Paper-Scissors battle video and attaches it to your post. A distinct video is generated for each targeted platform.',
+        'description' => 'Renders a Rock-Paper-Scissors battle video and attaches it to your post. A distinct video is generated for each targeted account.',
         'generate' => 'Generate',
         'save_defaults' => 'Save as default',
         'cancel' => 'Cancel',

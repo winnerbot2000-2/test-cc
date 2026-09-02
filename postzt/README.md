@@ -95,6 +95,23 @@ TryPost is open source on purpose. Self-host it and your posts, drafts, and metr
 
 Contributions of any size are welcome. Pick an [issue](https://github.com/trypostit/trypost/issues), say hi in [Discussions](https://github.com/trypostit/trypost/discussions), or open a PR with what you would like to see.
 
+### Repository layout
+
+This is the single TryPost project root. The RPS battle simulator that renders
+battle videos lives inside it under `native/rps-battle-simulator/` (Swift source,
+built from scratch by the desktop build — see `NATIVE-DESKTOP.md` for the
+one-command `native:build` flow).
+
+```
+postzt/                        # the Laravel + NativePHP app (this directory)
+├── app/                       # PHP application code
+├── config/nativephp.php       # NativePHP build config (prebuild hooks)
+├── native/rps-battle-simulator/  # Swift source for the RPS battle simulator
+├── nativephp/                 # published Electron project
+├── resources/js/              # Vue/Inertia frontend
+└── NATIVE-DESKTOP.md          # macOS desktop build documentation
+```
+
 Short on time? A star is the most valuable thing you can give. It helps more people find the project.
 
 ## License

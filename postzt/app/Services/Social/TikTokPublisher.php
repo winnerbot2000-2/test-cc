@@ -65,7 +65,7 @@ class TikTokPublisher
             );
         }
 
-        $media = $postPlatform->post->mediaItems;
+        $media = $postPlatform->effectiveMediaItems();
 
         if ($media->isEmpty()) {
             throw new TikTokPublishException(

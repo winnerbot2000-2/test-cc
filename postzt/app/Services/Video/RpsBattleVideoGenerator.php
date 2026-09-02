@@ -6,6 +6,7 @@ namespace App\Services\Video;
 
 use Illuminate\Support\Facades\Process;
 use RuntimeException;
+use Throwable;
 
 /**
  * Renders a Rock-Paper-Scissors battle video by shelling out to the
@@ -25,7 +26,7 @@ class RpsBattleVideoGenerator
      */
     public function generate(array $settings, int $seed, string $outputPath): string
     {
-        $binary = (string) config('rps.binary_path');
+        $binary = $this->resolveBinary();
         $timeout = (int) config('rps.timeout_seconds');
 
         $settingsJson = $this->simulationJson($settings, $seed);
@@ -34,6 +35,10 @@ class RpsBattleVideoGenerator
         try {
             $result = Process::timeout($timeout)
                 ->run([$binary, '--headless', '--settings', $settingsFile, '--output', $outputPath]);
+        } catch (Throwable $e) {
+            throw new RuntimeException(
+                sprintf('Could not run the RPS battle simulator binary "%s": %s', $binary, $e->getMessage()),
+            );
         } finally {
             @unlink($settingsFile);
         }
@@ -49,6 +54,31 @@ class RpsBattleVideoGenerator
         }
 
         return $outputPath;
+    }
+
+    /**
+     * Resolve the simulator binary, failing with a specific message when an
+     * explicit path is configured but the file is missing or not executable.
+     */
+    private function resolveBinary(): string
+    {
+        $binary = (string) config('rps.binary_path');
+
+        if (str_contains($binary, '/') || str_contains($binary, DIRECTORY_SEPARATOR)) {
+            if (! is_file($binary)) {
+                throw new RuntimeException(
+                    sprintf('RPS battle simulator binary not found at "%s". Set RPS_BINARY_PATH to the RPSBattleSimulator executable.', $binary),
+                );
+            }
+
+            if (! is_executable($binary)) {
+                throw new RuntimeException(
+                    sprintf('RPS battle simulator binary is not executable: "%s".', $binary),
+                );
+            }
+        }
+
+        return $binary;
     }
 
     /**
@@ -81,12 +111,13 @@ class RpsBattleVideoGenerator
     }
 
     /**
-     * Deterministic, distinct seed per post + platform so two platforms on the
-     * same post never share a video. 32-bit to match the Swift UInt32 seed.
+     * Deterministic, distinct seed per post + target. The target is a PostPlatform
+     * id (one per connected account), so two accounts on the same network never
+     * share a video. 32-bit to match the Swift UInt32 seed.
      */
-    public function seedFor(string $postId, string $platform): int
+    public function seedFor(string $postId, string $key): int
     {
-        return (int) hexdec(substr(sha1($postId.'|'.$platform), 0, 8));
+        return (int) hexdec(substr(sha1($postId.'|'.$key), 0, 8));
     }
 
     /**

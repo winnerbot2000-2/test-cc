@@ -9,6 +9,7 @@ use App\Enums\Notification\Type;
 use App\Jobs\SendNotification;
 use App\Models\Media;
 use App\Models\Post;
+use App\Models\PostPlatform;
 use App\Models\User;
 use App\Models\Workspace;
 use App\Services\Video\RpsBattleVideoGenerator;
@@ -23,9 +24,11 @@ use RuntimeException;
 use Throwable;
 
 /**
- * Renders one battle video per targeted platform (distinct seed each) via the
- * RPS CLI and attaches the results to the post as normal media. Runs on the
- * `ai` queue so video export never blocks the request/UI.
+ * Renders one battle video per targeted account (PostPlatform row, distinct seed
+ * each) via the RPS CLI. Each video is attached to its account's PostPlatform
+ * override (so every publisher sends only its own video) and, for composer
+ * review, to the post's shared media. Runs on the `ai` queue so export never
+ * blocks the UI.
  */
 class GenerateRpsBattleVideo implements ShouldQueue
 {
@@ -37,14 +40,14 @@ class GenerateRpsBattleVideo implements ShouldQueue
 
     /**
      * @param  array<string, mixed>  $settings
-     * @param  array<int, string>  $platforms
+     * @param  array<int, string>  $postPlatformIds
      */
     public function __construct(
         public string $workspaceId,
         public string $postId,
         public string $userId,
         public array $settings,
-        public array $platforms,
+        public array $postPlatformIds,
     ) {
         $this->onQueue('ai');
     }
@@ -54,21 +57,35 @@ class GenerateRpsBattleVideo implements ShouldQueue
         $post = Post::findOrFail($this->postId);
         $workspace = Workspace::findOrFail($this->workspaceId);
 
+        $postPlatforms = $post->postPlatforms()
+            ->enabled()
+            ->whereIn('id', $this->postPlatformIds)
+            ->get()
+            ->keyBy(fn (PostPlatform $postPlatform): string => $postPlatform->id);
+
         $attached = [];
         $failed = [];
         $tempFiles = [];
 
         try {
-            foreach ($this->platforms as $platform) {
-                $seed = $generator->seedFor($this->postId, $platform);
+            foreach ($this->postPlatformIds as $postPlatformId) {
+                $postPlatform = $postPlatforms->get($postPlatformId);
+
+                if ($postPlatform === null) {
+                    continue;
+                }
+
+                $platform = $postPlatform->platform->value;
+                $seed = $generator->seedFor($this->postId, $postPlatform->id);
                 $tempPath = $this->tempPath();
 
                 try {
                     $generator->generate($this->settings, $seed, $tempPath);
                 } catch (Throwable $e) {
-                    $failed[$platform] = $e->getMessage();
+                    $failed[$postPlatformId] = $e->getMessage();
                     Log::error('RPS battle video generation failed', [
                         'post_id' => $this->postId,
+                        'post_platform_id' => $postPlatformId,
                         'platform' => $platform,
                         'error' => $e->getMessage(),
                     ]);
@@ -85,11 +102,12 @@ class GenerateRpsBattleVideo implements ShouldQueue
                         'assets',
                     );
 
-                    $attached[] = $this->snapshot($media, $platform, $seed);
+                    $attached[$postPlatformId] = $this->snapshot($media, $platform, $seed, $postPlatform->social_account_id);
                 } catch (Throwable $e) {
-                    $failed[$platform] = $e->getMessage();
+                    $failed[$postPlatformId] = $e->getMessage();
                     Log::error('RPS battle video attach failed', [
                         'post_id' => $this->postId,
+                        'post_platform_id' => $postPlatformId,
                         'platform' => $platform,
                         'error' => $e->getMessage(),
                     ]);
@@ -107,7 +125,11 @@ class GenerateRpsBattleVideo implements ShouldQueue
             throw new RuntimeException('Battle video generation failed for every platform.');
         }
 
-        $post->appendMedia($attached);
+        // Keep the full set on the post (composer grid + compliance review),
+        // and write each account's own video to its per-account override so
+        // publishers send one distinct video per account.
+        $post->appendMedia(array_values($attached));
+        $this->attachPlatformMedia($post, $attached);
 
         if ($failed !== []) {
             $this->notifyPartial($workspace, $post, $failed);
@@ -117,9 +139,29 @@ class GenerateRpsBattleVideo implements ShouldQueue
     }
 
     /**
+     * Attach each account's generated video to that account's PostPlatform
+     * override. Keyed by PostPlatform id (not platform value) so a post
+     * targeting several accounts of the same network publishes one distinct
+     * video per account instead of every account's video to every account.
+     *
+     * @param  array<string, array<string, mixed>>  $mediaByPostPlatform
+     */
+    private function attachPlatformMedia(Post $post, array $mediaByPostPlatform): void
+    {
+        foreach ($post->postPlatforms()->enabled()->get() as $postPlatform) {
+            /** @var PostPlatform $postPlatform */
+            if (! isset($mediaByPostPlatform[$postPlatform->id])) {
+                continue;
+            }
+
+            $postPlatform->update(['media' => [$mediaByPostPlatform[$postPlatform->id]]]);
+        }
+    }
+
+    /**
      * @return array<string, mixed>
      */
-    private function snapshot(Media $media, string $platform, int $seed): array
+    private function snapshot(Media $media, string $platform, int $seed, ?string $socialAccountId): array
     {
         return [
             'id' => $media->id,
@@ -130,7 +172,11 @@ class GenerateRpsBattleVideo implements ShouldQueue
             'original_filename' => $media->original_filename,
             'size' => $media->size,
             'source' => 'rps',
-            'meta' => ['platform' => $platform, 'seed' => $seed],
+            'meta' => [
+                'platform' => $platform,
+                'seed' => $seed,
+                'social_account_id' => $socialAccountId,
+            ],
         ];
     }
 
@@ -183,10 +229,33 @@ class GenerateRpsBattleVideo implements ShouldQueue
      */
     private function failedBody(Post $post, array $failed): string
     {
+        $labels = $post->postPlatforms()
+            ->whereIn('id', array_keys($failed))
+            ->get()
+            ->mapWithKeys(fn (PostPlatform $postPlatform): array => [
+                $postPlatform->id => $this->targetLabel($postPlatform),
+            ]);
+
         $details = collect($failed)
-            ->map(fn (string $message, string $platform): string => ucfirst($platform).': '.$message)
+            ->map(fn (string $message, string $id): string => ($labels[$id] ?? $id).': '.$message)
             ->join('; ');
 
         return sprintf('Battle video generation for post "%s" did not complete for: %s', $post->id, $details);
+    }
+
+    /**
+     * Human-readable target label: platform + connected account display name, so
+     * two accounts on the same network are told apart in notifications.
+     */
+    private function targetLabel(PostPlatform $postPlatform): string
+    {
+        $name = $postPlatform->socialAccount?->accountDisplayName()
+            ?? $postPlatform->platform_name
+            ?? $postPlatform->platform_username
+            ?? null;
+
+        return $name === null
+            ? $postPlatform->platform->label()
+            : $postPlatform->platform->label().' ('.$name.')';
     }
 }

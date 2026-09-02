@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\App\Post;
 
-use App\Enums\SocialAccount\Platform;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -33,8 +32,8 @@ class GenerateBattleVideoRequest extends FormRequest
             'settings.branding_enabled' => ['sometimes', 'boolean'],
             'settings.branding_text' => ['sometimes', 'string', 'max:200'],
             'settings.sound_enabled' => ['sometimes', 'boolean'],
-            'platforms' => ['sometimes', 'array'],
-            'platforms.*' => ['string', Rule::in(array_column(Platform::cases(), 'value'))],
+            'post_platform_ids' => ['sometimes', 'array'],
+            'post_platform_ids.*' => ['string', 'uuid'],
         ];
     }
 }

@@ -14,9 +14,27 @@ return [
     | SimulationSettings JSON file and an output path. See the RPS repo's
     | HeadlessRunner for the exact contract.
     |
+    | RPS_BINARY_PATH may point at an explicit absolute path. When unset, the
+    | packaged NativePHP desktop app resolves the bundled executable under the
+    | `extras` directory (exposed as NATIVEPHP_EXTRAS_PATH) so generation works
+    | without a shell PATH; everywhere else it falls back to the bare command
+    | name resolved through $PATH.
+    |
     */
 
-    'binary_path' => env('RPS_BINARY_PATH', 'RPSBattleSimulator'),
+    'binary_path' => env('RPS_BINARY_PATH') ?: (static function (): string {
+        $extras = env('NATIVEPHP_EXTRAS_PATH');
+
+        if (is_string($extras) && $extras !== '') {
+            $bundled = $extras.'/RPSBattleSimulator.app/Contents/MacOS/RPSBattleSimulator';
+
+            if (is_file($bundled)) {
+                return $bundled;
+            }
+        }
+
+        return 'RPSBattleSimulator';
+    })(),
 
     /*
     |--------------------------------------------------------------------------

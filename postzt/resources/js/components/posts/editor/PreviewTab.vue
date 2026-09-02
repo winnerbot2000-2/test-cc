@@ -26,6 +26,7 @@ interface PostPlatform {
     platform_avatar: string | null;
     content_type: string | null;
     social_account: SocialAccount | null;
+    media?: MediaItem[];
 }
 
 const props = defineProps<{
@@ -55,6 +56,10 @@ const activePlatform = computed(() => props.platforms.find((pp) => pp.id === act
 const activeContentType = computed((): string | undefined => {
     if (!activePlatform.value) return undefined;
     return props.platformContentTypes[activePlatform.value.id] ?? activePlatform.value.content_type ?? undefined;
+});
+const activeMedia = computed((): MediaItem[] => {
+    const override = activePlatform.value?.media;
+    return override && override.length > 0 ? override : props.media;
 });
 </script>
 
@@ -102,7 +107,7 @@ const activeContentType = computed((): string | undefined => {
                 <PlatformPreview
                     :platform="activePlatform.platform"
                     :content="content"
-                    :media="media"
+                    :media="activeMedia"
                     :social-account="activePlatform.social_account"
                     :content-type="activeContentType"
                     :meta="platformMeta?.[activePlatform.id] ?? {}"

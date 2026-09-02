@@ -16,7 +16,8 @@ class PostBattleVideoController extends Controller
 {
     /**
      * Queue battle video generation for a post. One distinct video is produced
-     * per targeted platform, then attached to the post as media.
+     * per targeted account (PostPlatform row), then attached to that account's
+     * media override.
      */
     public function generate(GenerateBattleVideoRequest $request, Post $post): JsonResponse
     {
@@ -24,19 +25,9 @@ class PostBattleVideoController extends Controller
 
         $workspace = $request->user()->currentWorkspace;
 
-        $platforms = $request->collect('platforms')->filter()->map(fn ($p) => (string) $p)->unique()->values()->all();
+        $postPlatformIds = $this->resolveTargetIds($post, $request);
 
-        if ($platforms === []) {
-            $platforms = $post->postPlatforms()
-                ->enabled()
-                ->get()
-                ->map(fn ($postPlatform) => $postPlatform->platform->value)
-                ->unique()
-                ->values()
-                ->all();
-        }
-
-        if ($platforms === []) {
+        if ($postPlatformIds === []) {
             return response()->json([
                 'message' => __('posts.battle_video.errors.no_platforms'),
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -61,12 +52,41 @@ class PostBattleVideoController extends Controller
             postId: $post->id,
             userId: $request->user()->id,
             settings: $generator->normalize($settings),
-            platforms: $platforms,
+            postPlatformIds: $postPlatformIds,
         );
 
         return response()->json([
             'message' => __('posts.battle_video.queued'),
-            'platforms' => $platforms,
+            'post_platform_ids' => $postPlatformIds,
         ], Response::HTTP_ACCEPTED);
+    }
+
+    /**
+     * Resolve the PostPlatform rows to target. Keyed by PostPlatform id (one row
+     * per connected account) rather than platform value, so N accounts on the
+     * same network produce N distinct videos instead of collapsing to one.
+     *
+     * @return array<int, string>
+     */
+    private function resolveTargetIds(Post $post, GenerateBattleVideoRequest $request): array
+    {
+        $enabledIds = $post->postPlatforms()
+            ->enabled()
+            ->pluck('id')
+            ->map(fn ($id): string => (string) $id)
+            ->all();
+
+        $requested = $request->collect('post_platform_ids')
+            ->filter()
+            ->map(fn ($id): string => (string) $id)
+            ->unique()
+            ->values()
+            ->all();
+
+        if ($requested === []) {
+            return array_values($enabledIds);
+        }
+
+        return array_values(array_intersect($requested, $enabledIds));
     }
 }
